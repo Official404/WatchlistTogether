@@ -1,0 +1,19 @@
+[Unit]
+Description=Watchlist Service
+Documentation=https://watchlist.nomimatisic.com
+After=network.target
+
+[Service]
+Environment=DB_HOST=
+Environment=DB_PORT=
+Environment=DB_USER=
+Environment=DB_PASSWORD=
+Environment=DB_NAME=
+Environment=API_KEY_THEMOVIEDB=
+Type=simple
+User=root
+ExecStart=/usr/bin/node /WatchlistTogether/WatchlistTogether/watchlist/watchlist.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
