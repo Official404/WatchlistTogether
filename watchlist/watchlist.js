@@ -214,6 +214,6 @@ app.use(function(request, response, next) {
     response.status(404).sendFile(path.join(__dirname + '/404.html'));
 });
 
-app.listen(3000, () => {
-    console.log('Server is running at port 3000');
+app.listen(8080, () => {
+    console.log('Server is running at port 8080');
 });
