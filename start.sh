@@ -1,0 +1,1 @@
+node --env-file ./watchlist/.env ./watchlist/watchlist.js
