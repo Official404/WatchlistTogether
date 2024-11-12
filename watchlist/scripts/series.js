@@ -12,11 +12,11 @@ fetch('/api/get_content?type=series')
                     <h4>${series.name}</h4>
                     <p>${series.description}</p>
                 </div>
-                <div class="tracker">
+                <div class="tracker right-side">
                     <label for="series-progress">Progress:</label>
                     <input type="number" id="series-progress" name="series-progress" min="0" max="100" value="${series.progress}">    
                 </div>
-                <div class= "button-right-side">
+                <div class= "">
                     <button class="remove-button"><i class="fa fa-trash-o"></i></button>
                 </div>
                 <div class="hidden">

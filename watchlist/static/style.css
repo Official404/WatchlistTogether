@@ -222,8 +222,16 @@ body {
     color: #000000; /* Black */
 }
 
+.content-element .tracker input[type="number"] {
+    width: 70px;
+    padding: 10px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    border-radius: 5px;
+    color: #000000; /* Black */
+}
+
 /* Makes the buttons be on the right side */
-.button-right-side {
+.right-side {
     margin-left: auto;
 }
 

@@ -12,7 +12,7 @@ fetch('/api/get_content?type=movies')
                     <h4>${movies.name}</h4>
                     <p>${movies.description}</p>
                 </div>
-                <div class="tracker">
+                <div class="tracker right-side">
                     <label for="movies-progress">Progress:</label>
                     <input type="text" id="movies-progress" name="movies-progress" value="${movies.progress}">    
                 </div>
