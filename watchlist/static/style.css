@@ -1,0 +1,302 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+}
+body {
+    background-color: #ffe4e1; /* Misty Rose */
+}
+.login {
+    width: 400px;
+    background-color: #ffc1cc; /* Pastel Pink */
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+}
+.login h1 {
+    text-align: center;
+    color: #ffffff; /* White */
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #ffb3ba; /* Light Pink */
+}
+.login form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+.login form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #ffb6c1; /* Light Pink */
+    color: #ffffff; /* White */
+}
+.login form input[type="password"], .login form input[type="text"] {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+.login form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #ffb6c1; /* Light Pink */
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff; /* White */
+    transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover {
+    background-color: #ff9aa2; /* Darker Pink */
+    transition: background-color 0.2s;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffb6c1; /* Light Pink */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.navbar a {
+    color: #ffffff; /* White */
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.2s;
+}
+
+.navbar a:hover {
+    background-color: #ff9aa2; /* Darker Pink */
+    transition: background-color 0.2s;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 15px;
+}
+
+.search-for-content {
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffb6c1; /* Light Pink */
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #ffffff; /* White */
+}
+
+.search-for-content .search-bar input {
+    width: calc(100% - 155px);
+    padding: 10px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    border-radius: 5px;
+    color: #000000; /* Black */
+}
+
+.search-for-content .search-bar button {
+    width: 150px;
+    background-color: #ff6f61; /* Coral */
+    color: #ffffff; /* White */
+    border: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.search-for-content .search-bar button:hover {
+    background-color: #ff9aa2; /* Darker Pink */
+    transition: background-color 0.2s;
+}
+
+.search-for-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.watchlist-content {
+    display: inline-block;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffb6c1; /* Light Pink */
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #ffffff; /* White */
+    width: 100%;
+}
+
+.watchlist-content .watchlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.watchlist-content .watchlist-header h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Add content button */
+.watchlist-content .watchlist-header a {
+    background-color: #ff6f61; /* Coral */
+    color: #ffffff; /* White */
+    padding: 10px 20px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.watchlist-content .watchlist-header a {
+    color: #ffffff; /* White */
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.watchlist-content .watchlist-header a:hover {
+    background-color: #ff9aa2; /* Darker Pink */
+    transition: background-color 0.2s;
+}
+
+.watchlist-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.watchlist-content .watchlist img {
+    width: 100px;
+    border-radius: 10px;
+}
+
+.content-element {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffccc7; /* Light Coral */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.content-element img {
+    width: 100px;
+    max-height: 150px;
+    border-radius: 10px;
+}
+
+.content-element .tracker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.content-element .tracker input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    border-radius: 5px;
+    color: #000000; /* Black */
+}
+
+.content-element .tracker input[type="text"] {
+    width: 120px;
+    padding: 10px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    border-radius: 5px;
+    color: #000000; /* Black */
+}
+
+/* Makes the buttons be on the right side */
+.button-right-side {
+    margin-left: auto;
+}
+
+.content-element .add-button {
+    background-color: #77dd77; /* green */
+    color: #ffffff; /* White */
+    border: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.content-element .add-button:hover {
+    background-color: #a2ff9a; /* green Pink */
+    transition: background-color 0.2s;
+}
+
+.content-element .remove-button .fa .fa-trash-o {
+    font-size:36px; 
+    width: 50px;
+}
+
+.content-element .remove-button {
+    background-color: #ff6f61; /* Coral */
+    color: #ffffff; /* White */
+    border: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.content-element .remove-button:hover {
+    background-color: #ff9aa2; /* Darker Pink */
+    transition: background-color 0.2s;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #ff6f61; /* Coral */
+}
+
+.error h1 {
+    font-size: 72px;
+    margin: 0;
+}
+
+.error p {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.error a {
+    color: #ff6f61; /* Coral */
+    text-decoration: none;
+    font-size: 18px;
+    border: 2px solid #ff6f61; /* Coral */
+    padding: 10px 20px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.error a:hover {
+    background-color: #ff6f61; /* Coral */
+    color: #ffffff; /* White */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.hidden {
+    display: none;
+}

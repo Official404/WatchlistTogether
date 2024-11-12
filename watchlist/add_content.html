@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home Page</title>
+        <link href="/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="navbar">
+            <nav>
+                <a href="/home">Home</a>
+                <a href="/series">Anime</a>
+                <a href="/movies">Movies</a>
+            </nav>
+        </div>
+        <div class="search-for-content">
+            <div class="search-bar">
+                <input type="text" id="content-name" placeholder="Enter content name">
+                <button id="search-content-button" onclick="">Search Content</button>
+            </div>
+            <div class="search-results">
+                <ul id="content-list">
+                    <!-- Content items will be dynamically inserted here -->
+                </ul>
+            </div>
+        </div>
+        <script>
+            document.getElementById('search-content-button').addEventListener('click', function() {
+                const contentName = document.getElementById('content-name').value;
+                if (contentName) {
+                    fetch(`/api/search?query=${contentName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const contentList = document.getElementById('content-list');
+                            contentList.innerHTML = '';
+                            data.forEach(content => {
+                                const contentDetail = document.createElement('div');
+                                const poster = `https://image.tmdb.org/t/p/w500/${content.poster_path}`
+                                let name = "";
+                                if (content.media_type === "movie") {
+                                    name = content.title;
+                                } else {
+                                    name = content.name;
+                                }
+                                contentDetail.innerHTML = `
+                                    <li class="content-element">    
+                                        <img src="${poster}" alt="${name} image">
+                                        <div class="content-info">
+                                            <h4>${name}</h4>
+                                            <p>${content.overview}</p>
+                                        </div>
+                                        <div class= "button-right-side">
+                                            <button class="add-button">+</button>
+                                        </div>
+                                        <div class="hidden">
+                                            <p>${content.media_type}</p>
+                                        </div>
+                                    </li>
+                                `;
+                                contentList.appendChild(contentDetail);
+                            });
+                        })
+                        .catch(error => console.error('Error searching content:', error));
+                }
+            });
+
+            document.getElementById('content-list').addEventListener('click', function(event) {
+                if (event.target.classList.contains('add-button')) {
+                    const contentElement = event.target.parentElement.parentElement;
+                    const contentInfo = contentElement.querySelector('.content-info');
+                    const contentName = contentInfo.querySelector('h4').innerText;
+                    const contentDescription = contentInfo.querySelector('p').innerText;
+                    const contentPoster = contentElement.querySelector('img').src;
+                    const contentType = contentElement.querySelector('.hidden').querySelector('p').innerText;
+                    fetch('/api/add_content', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: contentName,
+                            description: contentDescription,
+                            poster: contentPoster,
+                            media_type: contentType
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Content added:', data);
+                        })
+                        .catch(error => console.error('Error adding content:', error));
+                }
+            });
+        </script>
+    </body>
+</html>
