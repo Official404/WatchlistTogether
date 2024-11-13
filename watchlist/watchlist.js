@@ -85,6 +85,14 @@ app.get('/add_content', function(request, response) {
     }
 });
 
+app.get('/pickforus', function(request, response) {
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/pickforus.html'));
+    } else {
+        response.redirect('/');
+    }
+});
+
 app.get('/api/search', function(request, response) {
     if (request.session.loggedin) {
         const query = request.query.query;
