@@ -15,12 +15,6 @@ fetch('/api/get_content?type=series')
                 <div class="tracker right-side">
                     <label for="series-progress">Progress:</label>
                     <input type="number" id="series-progress" name="series-progress" min="0" max="100" value="${series.progress}">    
-                    <select class="status" name="status">
-                        <option value="0">Not Started</option>
-                        <option value="1">Watching</option>
-                        <option value="2">Done</option>
-                        <option value="3">Dropped</option>
-                    </select>
                 </div>
                 <div class= "">
                     <button class="remove-button"><i class="fa fa-trash-o"></i></button>
