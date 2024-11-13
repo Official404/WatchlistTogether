@@ -184,18 +184,27 @@ app.post('/api/remove_content', function(request, response) {
 
 app.post('/api/update_content', function(request, response) {
     if (request.session.loggedin) {
-        const id = request.body.id;
-        const progress = request.body.progress;
-        const type = request.body.type;
-        let query = 'UPDATE watchlist SET progress = ? WHERE idseries = ?';
+        const { id, type, ...updateFields } = request.body;
+        
+        if (!id || !type || Object.keys(updateFields).length === 0) {
+            return response.status(400).send('Missing required fields');
+        }
+
+        let table = 'watchlist';
+        let idField = 'idseries';
         
         if (type === 'movies') {
-            query = 'UPDATE movies SET progress = ? WHERE id = ?';
+            table = 'movies';
+            idField = 'id';
         } else if (type === 'series') {
-            query = 'UPDATE series SET progress = ? WHERE id = ?';
+            table = 'series';
+            idField = 'id';
         }
+
+        const query = `UPDATE ${table} SET ? WHERE ${idField} = ?`;
+        
         pool.getConnection(function(err, connection) {
-            connection.query(query, [progress, id], function(error, results, fields) {
+            connection.query(query, [updateFields, id], function(error, results, fields) {
                 if (error) throw error;
                 response.sendStatus(200);
             });

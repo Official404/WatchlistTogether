@@ -230,20 +230,29 @@ body {
     color: #000000; /* Black */
 }
 
+.content-element .tracker .status {
+    width: 105px;
+    padding: 1px;
+    border: 1px solid #ffb3ba; /* Light Pink */
+    border-radius: 5px;
+    color: #000000; /* Black */
+}
+
 .content-element .tracker .status option[value="0"] {
     background-color: #ffb3ba; /* Light Pink */
 }
 
 .content-element .tracker .status option[value="1"] {
-    color: #fff59a; /* Coral */
+    background-color: #fff59a; /* Coral */
 }
 
 .content-element .tracker .status option[value="2"] {
-    color: #a2ff9a; /* Coral */
+    background-color: #a2ff9a; /* Coral */
 }
 
 .content-element .tracker .status option[value="3"] {
-    color: #554746; /* Coral */
+    background-color: #554746; /* Coral */
+    color: #ffffff; /* Text color white */
 }
 
 /* Makes the buttons be on the right side */
