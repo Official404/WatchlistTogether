@@ -328,6 +328,11 @@ body {
     margin-right: auto;
 }
 
+.currently-watching-window h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
 .currently-watching-window .content button {
     background-color: #ff6f61; /* Coral */
     color: #ffffff; /* White */
@@ -352,6 +357,28 @@ body {
     display: flex;
     flex-direction: column;
     padding-right: 20px;
+}
+
+.statistics-window {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #ffb6c1; /* Light Coral */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    color: #ffffff; /* White */
+}
+
+.statistics-window ul {
+    list-style: none;
+    padding: 0;
+    margin-right: auto;
+}
+
+.statistics-window h2 {
+    font-size: 24px;
+    margin: 0;
 }
 
 .error {
