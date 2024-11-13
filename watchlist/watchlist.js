@@ -3,30 +3,12 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 
-const connection = mysql.createConnection({
+var pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-
-/*const url = 'https://api.themoviedb.org/3/authentication';
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDVkMzQzMjlkMzZiYzdkMzJlNTA0NjljMzFmZmE1YiIsIm5iZiI6MTczMTAwMzE4Ni4zNTg5NzE0LCJzdWIiOiI2NzJkMDI1MmM3NDg3MThiZjA3Mzk0MDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.DqiQBt4T59wsUiIv4rYpDbGqzVRYAH-KmOU1Xm2NdrQ'
-  }
-};
-
-fetch(url, options)
-  .then(res => res.json())
-  .then(json => console.log(json))
-  .catch(err => console.error(err));*/
-
-connection.connect(function(err) {
-    if (err) throw err;
-    console.log('Connected to the database on id ' + connection.threadId);
+    database: process.env.DB_NAME,
+    connectionLimit: 10
 });
 
 const app = express();
@@ -50,17 +32,20 @@ app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-            if (error) throw error;
+        pool.getConnection(function(err, connection) {
+            connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+                if (error) throw error;
 
-            if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username;
-                response.redirect('/home');
-            } else {
-                response.send('Incorrect Username and/or Password!');
-            }			
-            response.end();
+                if (results.length > 0) {
+                    request.session.loggedin = true;
+                    request.session.username = username;
+                    response.redirect('/home');
+                } else {
+                    response.send('Incorrect Username and/or Password!');
+                }			
+                response.end();
+            });
+            connection.release();
         });
     } else {
         response.send('Please enter Username and Password!');
@@ -126,19 +111,22 @@ app.post('/api/add_content', function(request, response) {
     if (request.session.loggedin) {
         const content = request.body;
         if (content) {
-            if (content.media_type === 'movie') {
-                const { media_type, ...contentWithoutMediaType } = content;
-                connection.query('INSERT INTO movies SET ?', contentWithoutMediaType, function(error, results, fields) {
-                    if (error) throw error;
-                    response.json({id: results.insertId});
-                });
-            } else {
-                const { media_type, ...contentWithoutMediaType } = content;
-                connection.query('INSERT INTO series SET ?', contentWithoutMediaType, function(error, results, fields) {
-                    if (error) throw error;
-                    response.json({id: results.insertId});
-                });
-            }
+            pool.getConnection(function(err, connection) {
+                if (content.media_type === 'movie') {
+                    const { media_type, ...contentWithoutMediaType } = content;
+                    connection.query('INSERT INTO movies SET ?', contentWithoutMediaType, function(error, results, fields) {
+                        if (error) throw error;
+                        response.json({id: results.insertId});
+                    });
+                } else {
+                    const { media_type, ...contentWithoutMediaType } = content;
+                    connection.query('INSERT INTO series SET ?', contentWithoutMediaType, function(error, results, fields) {
+                        if (error) throw error;
+                        response.json({id: results.insertId});
+                    });
+                }
+                connection.release();
+            });
         } else {
             response.status(400).sendFile(path.join(__dirname + '/400.html'));
         }
@@ -157,10 +145,13 @@ app.get('/api/get_content', function(request, response) {
         } else if (type === 'series') {
             query = 'SELECT * FROM series';
         }
-
-        connection.query(query, function(error, results, fields) {
-            if (error) throw error;
-            response.json(results);
+        
+        pool.getConnection(function(err, connection) {
+            connection.query(query, function(error, results, fields) {
+                if (error) throw error;
+                response.json(results);
+            });
+            connection.release();
         });
     } else {
         response.redirect('/');
@@ -178,10 +169,13 @@ app.post('/api/remove_content', function(request, response) {
         } else if (type === 'series') {
             query = 'DELETE FROM series WHERE id = ?';
         }
-
-        connection.query(query, [id], function(error, results, fields) {
-            if (error) throw error;
-            response.sendStatus(200);
+        
+        pool.getConnection(function(err, connection) {
+            connection.query(query, [id], function(error, results, fields) {
+                if (error) throw error;
+                response.sendStatus(200);
+            });
+            connection.release();
         });
     } else {
         response.redirect('/');
@@ -200,10 +194,12 @@ app.post('/api/update_content', function(request, response) {
         } else if (type === 'series') {
             query = 'UPDATE series SET progress = ? WHERE id = ?';
         }
-
-        connection.query(query, [progress, id], function(error, results, fields) {
-            if (error) throw error;
-            response.sendStatus(200);
+        pool.getConnection(function(err, connection) {
+            connection.query(query, [progress, id], function(error, results, fields) {
+                if (error) throw error;
+                response.sendStatus(200);
+            });
+            connection.release();
         });
     } else {
         response.redirect('/');
@@ -212,6 +208,11 @@ app.post('/api/update_content', function(request, response) {
 
 app.use(function(request, response, next) {
     response.status(404).sendFile(path.join(__dirname + '/404.html'));
+});
+
+app.use(function(error, request, response, next) {
+    console.error(error.stack);
+    response.status(500).sendFile(path.join(__dirname + '/500.html'));
 });
 
 app.listen(8080, () => {

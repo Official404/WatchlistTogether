@@ -12,6 +12,7 @@ Environment=DB_NAME=
 Environment=API_KEY_THEMOVIEDB=
 Type=simple
 User=root
+WorkingDirectory=/WatchlistTogether/WatchlistTogether/watchlist
 ExecStart=/usr/bin/node /WatchlistTogether/WatchlistTogether/watchlist/watchlist.js
 Restart=on-failure
 
