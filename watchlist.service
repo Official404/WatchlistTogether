@@ -4,12 +4,7 @@ Documentation=https://watchlist.nomimatisic.com
 After=network.target
 
 [Service]
-Environment=DB_HOST=
-Environment=DB_PORT=
-Environment=DB_USER=
-Environment=DB_PASSWORD=
-Environment=DB_NAME=
-Environment=API_KEY_THEMOVIEDB=
+EnvironmentFile=-/WatchlistTogether/WatchlistTogether/.env
 Type=simple
 User=root
 WorkingDirectory=/WatchlistTogether/WatchlistTogether/watchlist

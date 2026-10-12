@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Account</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <link href="/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="navbar">
+            <nav>
+                <a href="/home">Home</a>
+                <a href="/series">Anime</a>
+                <a href="/movies">Movies</a>
+                <a href="/create_account">Create Account</a>
+            </nav>
+        </div>
+        <div class="login">
+            <h1>Create Account</h1>
+            <form id="create-account-form">
+                <label for="username"><i class="fas fa-user"></i></label>
+                <input type="text" name="username" placeholder="Username" id="username" required>
+                <label for="password"><i class="fas fa-lock"></i></label>
+                <input type="password" name="password" placeholder="Password" id="password" required>
+                <label for="confirm-password"><i class="fas fa-lock"></i></label>
+                <input type="password" name="confirmPassword" placeholder="Confirm password" id="confirm-password" required>
+                <p id="account-message" role="status" aria-live="polite"></p>
+                <input type="submit" value="Create Account">
+            </form>
+        </div>
+        <script>
+            document.getElementById('create-account-form').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const message = document.getElementById('account-message');
+                message.textContent = '';
+                try {
+                    const response = await fetch('/api/accounts', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: document.getElementById('username').value,
+                            password: document.getElementById('password').value,
+                            confirmPassword: document.getElementById('confirm-password').value
+                        })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || `Account creation failed (${response.status}).`);
+                    }
+
+                    message.textContent = data.message;
+                    this.reset();
+                } catch (error) {
+                    message.textContent = error.message;
+                }
+            });
+        </script>
+    </body>
+</html>

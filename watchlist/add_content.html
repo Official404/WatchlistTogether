@@ -12,6 +12,7 @@
                 <a href="/home">Home</a>
                 <a href="/series">Anime</a>
                 <a href="/movies">Movies</a>
+                <a href="/create_account">Create Account</a>
             </nav>
         </div>
         <div class="search-for-content">
@@ -29,8 +30,31 @@
             document.getElementById('search-content-button').addEventListener('click', function() {
                 const contentName = document.getElementById('content-name').value;
                 if (contentName) {
-                    fetch(`/api/search?query=${contentName}`)
-                        .then(response => response.json())
+                    fetch(`/api/search?query=${encodeURIComponent(contentName)}`)
+                        .then(async response => {
+                            const responseText = await response.text();
+                            if (!responseText.trim()) {
+                                throw new Error('The search service returned an empty response.');
+                            }
+
+                            let data;
+                            try {
+                                data = JSON.parse(responseText);
+                            } catch (error) {
+                                throw new Error(`The search service returned an invalid response (${response.status}).`);
+                            }
+
+                            if (!response.ok) {
+                                const message = data && typeof data === 'object' && typeof data.error === 'string'
+                                    ? data.error
+                                    : `Search failed (${response.status}).`;
+                                throw new Error(message);
+                            }
+                            if (!Array.isArray(data)) {
+                                throw new Error('The search service returned an invalid response.');
+                            }
+                            return data;
+                        })
                         .then(data => {
                             const contentList = document.getElementById('content-list');
                             contentList.innerHTML = '';
@@ -61,7 +85,16 @@
                                 contentList.appendChild(contentDetail);
                             });
                         })
-                        .catch(error => console.error('Error searching content:', error));
+                        .catch(error => {
+                            console.error('Error searching content:', error);
+                            const contentList = document.getElementById('content-list');
+                            contentList.innerHTML = '';
+                            const errorMessage = document.createElement('li');
+                            errorMessage.className = 'content-error';
+                            errorMessage.setAttribute('role', 'alert');
+                            errorMessage.textContent = error.message;
+                            contentList.appendChild(errorMessage);
+                        });
                 }
             });
 
