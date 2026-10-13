@@ -209,10 +209,27 @@ app.get('/api/get_content', function(request, response) {
     }
 
     const { type } = request.query;
+    const { filter } = request.query;
     if (type === 'movies') {
+        if (filter) {
+            const filterValue = parseInt(filter, 10);
+            if (!Number.isInteger(filterValue) || filterValue < 0 || filterValue > 3) {
+                return response.status(400).send('Invalid filter value for movies');
+            } else {
+                return response.json(database.prepare('SELECT * FROM movies WHERE status = ?').all(filterValue));
+            }
+        }
         return response.json(database.prepare('SELECT * FROM movies').all());
     }
     if (type === 'series') {
+        if (filter) {
+            const filterValue = parseInt(filter, 10);
+            if (!Number.isInteger(filterValue) || filterValue < 0 || filterValue > 3) {
+                return response.status(400).send('Invalid filter value for series');
+            } else {
+                return response.json(database.prepare('SELECT * FROM series WHERE status = ?').all(filterValue));
+            }
+        }
         return response.json(database.prepare('SELECT * FROM series').all());
     }
     if (type && type !== 'watchlist') {

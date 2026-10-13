@@ -147,6 +147,28 @@ body {
     margin-bottom: 20px;
 }
 
+.watchlist-content .watchlist-header #series-filter {
+    /* align right */
+    margin-right: 25px;
+}
+
+.watchlist-content .watchlist-header #series-filter-label {
+    /* align right */
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.watchlist-content .watchlist-header #movies-filter {
+    /* align right */
+    margin-right: 25px;
+}
+
+.watchlist-content .watchlist-header #movies-filter-label {
+    /* align right */
+    margin-left: auto;
+    margin-right: 5px;
+}
+
 .watchlist-content .watchlist-header h2 {
     font-size: 24px;
     margin: 0;
