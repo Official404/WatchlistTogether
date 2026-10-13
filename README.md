@@ -20,8 +20,8 @@ A shared watchlist for movies and series.
 
 The app loads `.env` from the project root regardless of the working directory.
 Environment variables already set by the OS take precedence over values in
-`.env`. Do not commit `.env`; it may contain credentials. Account passwords are
-stored as plain text, so use this app only in a trusted environment.
+`.env`. Account passwords are stored as plain text currently, so use this app 
+only in a trusted environment.
 
 After signing in, use **Create Account** in the navigation to add another login.
 
