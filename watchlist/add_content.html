@@ -27,7 +27,16 @@
             </div>
         </div>
         <script>
+            document.getElementById('content-name').addEventListener('keypress', function(e) {
+                if (e.key == "Enter") {
+                    seachContent();
+                }
+            });
             document.getElementById('search-content-button').addEventListener('click', function() {
+                seachContent();
+            });
+
+            function seachContent() {
                 const contentName = document.getElementById('content-name').value;
                 if (contentName) {
                     fetch(`/api/search?query=${encodeURIComponent(contentName)}`)
@@ -96,7 +105,7 @@
                             contentList.appendChild(errorMessage);
                         });
                 }
-            });
+            }
 
             document.getElementById('content-list').addEventListener('click', function(event) {
                 if (event.target.classList.contains('add-button')) {
